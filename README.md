@@ -18,6 +18,7 @@ Arduino sketch for a networked RFID controller (using SNARC or Arduino with an E
      - Martijn The - http://www.martijnthe.nl/
 - Arduino Ethernet Client sketch by bildr.org: http://bildr.org/2011/06/arduino-ethernet-client/
 - buzz() function by Rob Faludi: http://www.faludi.com/2007/04/23/buzzer-arduino-example-code/
+- random MAC address generator by Joel Chia as used in: https://github.com/j-c/snarc/blob/master/Firmware/snarc/snarc.ino
 
 Hardware Wiring:
 - Buzzer according to http://www.budurl.com/buzzer
