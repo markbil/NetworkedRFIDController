@@ -1,5 +1,4 @@
 /*
-
  NetworkedRFIDController Sketch by Mark Bilandzic, 11 April 2012
  
  This sketch reads an RFID card through an RFID reader and makes a GET request to a URL with the RFID numbers as a parameter.
@@ -59,8 +58,8 @@ Hardware Wiring:
 ////////////////////////////////////////////////////////////////////////
 //CONFIGURE API SETTINGS
 ////////////////////////////////////////////////////////////////////////
-    int im_type = 1; // should be set to 1 on every RFID reader. 1 stands for RFID in the Checkin-DB
-    int sublocation = 4; //set location key according to where the RFID reader is installed, e.g. 1 for Window Bays 1.
+    int mainlocation = 99; // set 99 for the Edge
+    int sublocation = 19; //set location key according to where the RFID reader is installed, e.g. 1 for Window Bays 1.
 //    String thirdpartyid = "9999999"; //actual RFID number. set random number for test purposes...
 
 
@@ -105,14 +104,26 @@ void setup(){
   Serial.println("Serial...");  
   Serial.println("Ethernet...");
   delay(100);
-  Ethernet.begin(mac);
-  Serial.println("Setup finished.");
+  int ethernetResult = Ethernet.begin(mac);
+  if (ethernetResult == 1) {
+    Serial.println("DHCP successful");
+    //Confirmation via buzzer and on-board LEDs that Ethernet setup is finished
+      blinkPin(onboard_greenPin, 2000);
+      buzz(speakerPin, 1000, 300);
+      delay(200);
+      buzz(speakerPin, 1000, 300);
+
+  } else{
+    Serial.println("DHCP not successful :-(");
+    //Confirmation via buzzer and on-board LEDs that Ethernet setup is finished
+      blinkPin(onboard_redPin, 2000);
+      buzz(speakerPin, 1000, 300);
+      delay(200);
+      buzz(speakerPin, 500, 300);
+  }
   
-  //Confirmation via buzzer and on-board LEDs that Ethernet setup is finished
-    blinkPin(onboard_greenPin, 3000);
-    buzz(speakerPin, 1000, 300);
-    delay(200);
-    buzz(speakerPin, 1000, 300);
+  Serial.println("Setup finished.");
+    
     
 }
 
@@ -187,11 +198,11 @@ void loop(){
               
               rfid.toUpperCase();
               Serial.println("RFID: " + rfid);
-              String url_base = "/php/RFIDCheckinSystem/API/checkin_submit_manual.php?";
+              String url_base = "/php/Gelatine/blog/API/checkin_submit_manual.php?";
               
-              String url_param1 = "im_type=" + String(im_type);
-              String url_param2 = "&thirdpartyid=" + rfid;
-              String url_param3 = "&sublocation=" + String(sublocation);
+              String url_param1 = "mainlocation=" + String(mainlocation);
+              String url_param2 = "&sublocation=" + String(sublocation);
+              String url_param3 = "&rfid=" + rfid;
               String url_httptail = " HTTP/1.0";
               
               String url_complete = url_base + url_param1 + url_param2 + url_param3 + url_httptail;
@@ -307,7 +318,8 @@ void buzz(int targetPin, long frequency, long length) {
 
   void generate_random_mac_address()
   {
-  	set_mac_address(random(0, 255), random(0, 255), random(0, 255), random(0, 255), random(0, 255), random(0, 255));
+  	//set_mac_address(random(0, 255), random(0, 255), random(0, 255), random(0, 255), random(0, 255), random(0, 255));
+        set_mac_address((random(0, 63) << 2) | 2, random(0, 255), random(0, 255), random(0, 255), random(0, 255), random(0, 255));
   }
   
   void set_mac_address(byte octet0, byte octet1, byte octet2, byte octet3, byte octet4, byte octet5)
