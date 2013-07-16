@@ -5,6 +5,10 @@
  The sketch is written for the SNARC (Simple NetworkAble RFID Controller), designed by Lawrence "Lemming" Dixon http://www.hsbne.org/projects/SNARC, however
  the code is fully compatible with an Arduino 1.0+ and attached Ethernet-Shield.
  
+ The sketch was written to control a Checkin Point as part of the Gelatine project:
+ Gelatine project: http://kavasmlikon.wordpress.com/2013/07/09/gelatine-designing-for-digital-encounters-in-coworking-spaces/
+ Gelatine Checkin Point: http://kavasmlikon.wordpress.com/2013/07/16/gelatine-checkin-point/ ‎
+ 
  Code is based on:
  - RFID reader code by
      - Martijn The - http://www.martijnthe.nl/ 
